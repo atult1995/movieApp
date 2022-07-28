@@ -13,7 +13,7 @@ export class DashboardComponent implements OnInit {
 searchBy:any=[{filterName:"date",date:[]},{filterName:"genres",genres:[]},{filterName:"runTime",runTime:[]}]
 //searchText used for storing title keywords
 searchText:string=""
-// current page number, initially 0
+// current page number, initially 0 
 currentPageNumber:number=0
 //page array, stores number of pages
 pages:any=[]
@@ -23,6 +23,9 @@ dateFilters:any=[{first:"1980",second:"1990"},{first:"1990",second:"2000"},{firs
 color:any=["red","blue","orange"]
 //store checkedin filters indexes
 filterCheckedIn:any=[[],[],[]]
+//sortOrder variable, true means ascending order by year and false means descending order by year
+sortOrder:boolean=true
+
 constructor(public movieListService:MovieListService,public userService:UserService) {
   //loading services
  }
@@ -51,6 +54,13 @@ constructor(public movieListService:MovieListService,public userService:UserServ
     //cheking if already user has searched using search bar and retriving previous result
     if(sessionStorage.getItem("searchText")!==null){
       this.searchText=sessionStorage.getItem("searchText")
+    }
+    if(sessionStorage.getItem("sortOrder")!==null){
+      if(sessionStorage.getItem("sortOrder")==="true"){
+        this.sortOrder=true
+      }else{
+        this.sortOrder=false
+      }
     }
     //setting the filter checkbox that user has already set
     if(sessionStorage.getItem("filterCheckedIn")!==null){
@@ -85,7 +95,7 @@ constructor(public movieListService:MovieListService,public userService:UserServ
     //initialise filter pipe
     var filter=new FilterPipe()
     //filter pipes takes 3 parameter (movie array, searchBy filter and searchText filter) and return filtered records
-    var result=filter.transform(this.movieListService.movieList[0].movies,this.searchBy,this.searchText)
+    var result=filter.transform(this.movieListService.movieList[0].movies,this.searchBy,this.searchText,this.sortOrder)
     //counting number of pages by dividing by 12
     var numberOfPages=Math.ceil(result.length/12)
     //adding page to pages array
@@ -203,8 +213,25 @@ constructor(public movieListService:MovieListService,public userService:UserServ
     this.userService.dateFilterIn=Array.from({length:4},()=>false)
     this.userService.genresFilterIn=Array.from({length:this.movieListService.movieList[0].genres.length},()=>false)
     this.userService.runTimeIn=Array.from({length:1},()=>false)
+    this.sortOrder=true
+    console.log("sort",this.sortOrder)
     sessionStorage.clear()
     //after reseting all filters, calculating number of pages
     this.onCalculateNumberPages()
+  }
+  //sorting data w.r.t year
+  //for asceding order
+  sortAsc(){
+    //set sortOrder value to true
+    this.sortOrder=true
+    //storing sort order values to session for future use
+    sessionStorage.setItem("sortOrder","true")
+  }
+  //for desceding order
+  sortDesc(){
+    //set sortOrder value to true
+    this.sortOrder=false
+    //storing sort order values to session for future use
+    sessionStorage.setItem("sortOrder","false")
   }
 }

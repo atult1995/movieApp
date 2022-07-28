@@ -15,7 +15,8 @@
         <div class="form-group form-check" *ngFor="let dateFilter of dateFilters;let i=index">
             <input type="checkbox" class="form-check-input" id="exampleCheck1" 
             [(ngModel)]="userService.dateFilterIn[i]" (change)="onSelectDateFilter(dateFilter,i)">
-            <label class="form-check-label" for="exampleCheck1">{{dateFilter.first + "-"+ dateFilter.second}}</label>
+            <label class="form-check-label" for="exampleCheck1">{{dateFilter.first + "-"+ dateFilter.second}} </label>
+            
         </div>
         <p><strong>By Generes:</strong></p>
         <div class="form-group form-check" *ngFor="let genres of  movieListService.movieList[0].genres;let i=index">
@@ -29,15 +30,29 @@
             [(ngModel)]="userService.runTimeIn[0]" (change)="onSelectTimeFilter(150)">
             <label class="form-check-label" for="exampleCheck1">Run time 150 min</label>
         </div>
-        <div style="padding: 20px;color: white;">
-            <button style="padding: 5px;width: 120px;" class="btn btn-primary" (click)="resetFilter()">Reset</button>
+        <div class="asc-desc">
+            <button class="btn btn-primary asc" (click)="sortAsc()">
+                Asc 
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-square-fill" viewBox="0 0 16 16">
+                    <path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0z"/>
+                </svg>
+            </button>
+            <button class="btn btn-warning desc" (click)="sortDesc()">
+                Desc 
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-square-fill" viewBox="0 0 16 16">
+                    <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5a.5.5 0 0 1 1 0z"/>
+                </svg>
+            </button>
+        </div>
+        <div class="reset">
+            <button class="btn btn-danger" (click)="resetFilter()">Reset</button>
         </div>
     </div>
     <!--movie records-->
     <div class="col-md-9">
         <div class="row" style="margin: 0;">
             <div class="col-md-3 box-shadow movie-list" onclick="return false" *ngFor="let movieList of movieListService.movieList[0].movies
-             | filter:searchBy:searchText | pagination:currentPageNumber let i=index;" [routerLink]="['/user','movieFull']"
+             | filter:searchBy:searchText:sortOrder | pagination:currentPageNumber let i=index;" [routerLink]="['/user','movieFull']"
               [queryParams]="{id:movieList.id}">
                 <figure>
                     <img [src]="movieList.posterUrl">

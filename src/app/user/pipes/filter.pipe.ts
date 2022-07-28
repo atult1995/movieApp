@@ -16,15 +16,17 @@ export class FilterPipe implements PipeTransform {
     return c.indexOf(a)===b
   }
 
-  transform(movie:any[],searchBy:any,searchText:string): any {
+  transform(movie:any[],searchBy:any,searchText:string,sortOrder:boolean): any {
     var resultArray:any=[]
     var temp:any=[]
     //if user has neither set serachText nor searchBy
     if(searchText == "" && searchBy[0].date.length===0 && searchBy[1].genres.length===0 && searchBy[2].runTime.length===0){
-      return movie
+      resultArray=movie
+      //return resultArray
     }
     //if user has only using search bar i.e set searchText(trying to search by title) and no filter is set i.e no searchBy is set
     else if(searchText !=="" && searchBy[0].date.length===0 && searchBy[1].genres.length===0 && searchBy[2].runTime.length===0){
+      resultArray=[]
         movie.forEach((mo)=>{
           if(mo.title.toLowerCase().includes(searchText.toLowerCase())){
             resultArray.push(mo)
@@ -73,6 +75,15 @@ export class FilterPipe implements PipeTransform {
     }
     //may pe possible that we get duplicate records, filtering duplicate records
     resultArray=resultArray.filter((this.removeDuplicate))
+
+    //sorting data w.r.t year
+    if(sortOrder == true){
+      //asceding order by year
+      resultArray.sort((a:any,b:any) => Number(a.year)-Number(b.year))
+    }else{
+      //desceding order by year
+      resultArray.sort((a:any,b:any) => Number(b.year)-Number(a.year))
+    }
     //return searched data
     return resultArray;
   }
