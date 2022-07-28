@@ -1,0 +1,30 @@
+<!--Nav bar-->
+<app-header></app-header>
+<div class="row">
+    <!--back button to go dashboard-->
+    <div class="col-md-3">
+        <a class="btn btn-primary" style="width: 100px;" onclick="return false" [routerLink]="['/user','dashboard']">
+            <svg style="padding: 0;" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left-circle-fill" viewBox="0 0 16 16">
+                <path d="M8 0a8 8 0 1 0 0 16A8 8 0 0 0 8 0zm3.5 7.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"/>
+            </svg>
+            Back
+        </a>
+    </div>
+    <!--displaying movie details-->
+    <div class="col-md-6">
+            <img [src]="movie.posterUrl">
+                <!-- <p><strong>{{movie.title}}</strong></p> -->
+                <h4 style="padding: 10px;">{{movie.title}}</h4>
+                <div class="genres-main">
+                    <div
+                    *ngFor="let gen of movie.genres;let i=index" [style.color]="color[i]"><strong>{{gen}}</strong></div>
+                </div>
+                <p>{{movie.plot}}</p>
+                <p><strong>Released year:</strong> {{movie.year}}</p>
+                <p><strong>Runtime:</strong> {{movie.runtime}} min</p>
+                <p><strong>Cast:</strong> {{movie.actors}}</p>
+                <p><strong>Directed By:</strong> {{movie.director}}</p>
+    </div>
+    <div class="col-md-2"></div>
+</div>
+<app-footer></app-footer>

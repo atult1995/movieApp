@@ -1,0 +1,23 @@
+.navbar{
+    background-color: orange;
+    color: white;
+}
+.navbar-brand{
+    color: white;
+    float: right;
+}
+.nav-item{
+    text-transform: uppercase;
+    width: 120px;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+.navbar .nav-item a{
+    color: white;
+    font-size: 90%;
+}
+.nav-item:hover{
+    background-color: red;
+    border-radius: 5px;
+}

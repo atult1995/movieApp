@@ -1,0 +1,67 @@
+<!--nav bar-->
+<app-header></app-header>
+<!--search bar-->
+<div class="row search">
+    <div class="col-md-3"></div>
+    <div class="col-md-6 box-shadow">
+        <input type="text"  class="form-control" (keyup)="onSearchTitle()" [(ngModel)]="searchText" placeholder="Search by title">
+    </div>
+</div>
+<div class="row">
+    <!--filters-->
+    <div class="col-md-3 box-shadow filter">
+        <h4>Filters</h4>
+        <p><strong>By Year:</strong></p>
+        <div class="form-group form-check" *ngFor="let dateFilter of dateFilters;let i=index">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1" 
+            [(ngModel)]="userService.dateFilterIn[i]" (change)="onSelectDateFilter(dateFilter,i)">
+            <label class="form-check-label" for="exampleCheck1">{{dateFilter.first + "-"+ dateFilter.second}}</label>
+        </div>
+        <p><strong>By Generes:</strong></p>
+        <div class="form-group form-check" *ngFor="let genres of  movieListService.movieList[0].genres;let i=index">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1" 
+            [(ngModel)]="userService.genresFilterIn[i]" (change)="onSelectGenresFilter(genres,i)">
+            <label class="form-check-label" for="exampleCheck1">{{genres}}</label>
+        </div>
+        <p><strong>By Runtime:</strong></p>
+        <div class="form-group form-check" >
+            <input type="checkbox" class="form-check-input" id="exampleCheck1"
+            [(ngModel)]="userService.runTimeIn[0]" (change)="onSelectTimeFilter(150)">
+            <label class="form-check-label" for="exampleCheck1">Run time 150 min</label>
+        </div>
+        <div style="padding: 20px;color: white;">
+            <button style="padding: 5px;width: 120px;" class="btn btn-primary" (click)="resetFilter()">Reset</button>
+        </div>
+    </div>
+    <!--movie records-->
+    <div class="col-md-9">
+        <div class="row" style="margin: 0;">
+            <div class="col-md-3 box-shadow movie-list" onclick="return false" *ngFor="let movieList of movieListService.movieList[0].movies
+             | filter:searchBy:searchText | pagination:currentPageNumber let i=index;" [routerLink]="['/user','movieFull']"
+              [queryParams]="{id:movieList.id}">
+                <figure>
+                    <img [src]="movieList.posterUrl">
+                    <figcaption>
+                        <p style="margin:2px 0 0 0;"><strong>{{movieList.title}}</strong></p>
+                        <p style="margin: 0;color: rgb(93, 93, 93);">Year: {{movieList.year}}</p>
+                        <div style="display: flex;width: auto;">
+                            <div style="color: orange;padding: 2px;"
+                            *ngFor="let gen of movieList.genres;let i=index" [style.color]="color[i]"><strong>{{gen}}</strong></div>
+                        </div>
+                    </figcaption>
+                </figure>    
+            </div>  
+        </div>
+        <!--Pagination-->
+        <div class="row">
+            <nav aria-label="...">
+                <ul class="pagination">
+                  <li class="page-item" *ngFor="let page of pages;let i=index" (click)="onClickPageNumber(i)" onclick="return false"><a class="page-link" href="#">{{page+1}}</a></li>
+                </ul>
+              </nav>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>
+
+    

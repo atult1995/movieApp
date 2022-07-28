@@ -1,0 +1,35 @@
+.row{
+    width: 100%;
+    margin: 20px 0;
+}
+.search .col-md-6{
+    padding: 20px;
+    border-radius: 5px;
+}
+.filter{
+    padding: 20px;
+    margin: 20px 0;
+}
+.filter h4,.filter p{
+    padding: 10px;
+}
+
+.col-md-9 .row .movie-list{
+    margin: 20px 0;
+    height: 350px;
+    border-right: 2px solid orange;
+    cursor: pointer;
+}
+
+.movie-list figure{
+    width: 100%;
+    height: 100%;
+}
+.movie-list img{
+    width: 100%;height: 70%;
+}
+@media only screen and (max-width:768px){
+    .col-md-9 .row .movie-list{
+        margin: 20px auto;
+    }
+}
